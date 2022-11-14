@@ -16,11 +16,9 @@ app.use('/api/v1/languages', languageRoutes);
 app.use('/api/v1/courses', courseRoutes);
 
 app.use((err, req, res, next) => {
-    console.log(err.stack);
-    console.log(err.name);
-    console.log(err.code);
     res.status(500).json({
         message: "Something went wrong",
+        error: err.name
     });
 });
 

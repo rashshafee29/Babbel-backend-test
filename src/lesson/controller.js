@@ -7,12 +7,13 @@ const {
   insertToTableQuery,
 } = require("../../utils/common.queries");
 const { getBodyValues } = require("../../utils/common.helper");
+const { TABLE_NAME } = require("../../utils/constants");
 
 const getLessons = async (req, res) => {
-    const getLessonsQuery = await getAllQuery('lesson');
+    const getLessonsQuery = await getAllQuery(TABLE_NAME.lesson);
     const result = await pool.query(getLessonsQuery);
     if (result.error) {
-        throw error;
+        throw result.error;
     }
     console.log("Success: getLessons", result.rowCount);
     res.status(200).json(result.rows);
@@ -20,10 +21,10 @@ const getLessons = async (req, res) => {
 
 const getLessonById = async (req, res) => {
     const id = parseInt(req.params.id);
-    const getLessonByIdQuery = await getByIdQuery(id, 'lesson');
+    const getLessonByIdQuery = await getByIdQuery(id, TABLE_NAME.lesson);
     const result = await pool.query(getLessonByIdQuery);
     if (result.error) {
-        throw error;
+        throw result.error;
     }
     console.log("Success: getLessonById", result.rowCount);
     if (result.rowCount == 0) {
@@ -34,12 +35,12 @@ const getLessonById = async (req, res) => {
 };
 
 const insertLesson = async (req, res) => {
-    const insertLessonQuery = await insertToTableQuery(req.body, 'lesson');
+    const insertLessonQuery = await insertToTableQuery(req.body, TABLE_NAME.lesson);
 
     const values = await getBodyValues(req.body);
     const result = await pool.query(insertLessonQuery, values);
     if (result.error) {
-        throw error;
+        throw result.error;
     }
     console.log("Success: insertLesson", result.rowCount);
     res.status(201).send("Lesson inserted successfully");
@@ -47,18 +48,18 @@ const insertLesson = async (req, res) => {
 
 const updateLessonById = async (req, res) => {
     const id = parseInt(req.params.id);
-    const getLessonByIdQuery = await getByIdQuery(id, 'lesson');
+    const getLessonByIdQuery = await getByIdQuery(id, TABLE_NAME.lesson);
     const isPresent = await pool.query(getLessonByIdQuery);
     if (isPresent.rowCount == 0) {
         res.status(404).send('Lesson not found');
         return;
     }
 
-    const updateLessonByIdQuery = await updateByIdQuery(id, req.body, 'lesson');
+    const updateLessonByIdQuery = await updateByIdQuery(id, req.body, TABLE_NAME.lesson);
     const values = await getBodyValues(req.body);
     const result = await pool.query(updateLessonByIdQuery, values);
     if (result.error) {
-        throw error;
+        throw result.error;
     }
     console.log("Success: updateLessonById", result.rowCount);
     res.status(200).send('Lesson updated successfully');
@@ -66,18 +67,18 @@ const updateLessonById = async (req, res) => {
 
 const patchUpdateLessonById = async (req, res) => {
     const id = parseInt(req.params.id);
-    const getLessonByIdQuery = await getByIdQuery(id, 'lesson');
+    const getLessonByIdQuery = await getByIdQuery(id, TABLE_NAME.lesson);
     const isPresent = await pool.query(getLessonByIdQuery);
     if (isPresent.rowCount == 0) {
         res.status(404).send('Lesson not found');
         return;
     }
 
-    const patchUpdateLessonByIdQuery = await updateByIdQuery(id, req.body, 'lesson');
+    const patchUpdateLessonByIdQuery = await updateByIdQuery(id, req.body, TABLE_NAME.lesson);
     const values = await getBodyValues(req.body);
     const result = await pool.query(patchUpdateLessonByIdQuery, values);
     if (result.error) {
-        throw error;
+        throw result.error;
     }
     console.log("Success: patchUpdateLessonById", result.rowCount);
     res.status(200).send('Lesson updated successfully');
@@ -85,16 +86,16 @@ const patchUpdateLessonById = async (req, res) => {
 
 const deleteLessonById = async (req, res) => {
     const id = parseInt(req.params.id);
-    const getLessonByIdQuery = await getByIdQuery(id, 'lesson');
+    const getLessonByIdQuery = await getByIdQuery(id, TABLE_NAME.lesson);
     const isPresent = await pool.query(getLessonByIdQuery);
     if (isPresent.rowCount == 0) {
         res.status(404).send('Lesson not found');
         return;
     }
-    const deleteLessonByIdQuery = await deleteByIdQuery(id, 'lesson');
+    const deleteLessonByIdQuery = await deleteByIdQuery(id, TABLE_NAME.lesson);
     const result = await pool.query(deleteLessonByIdQuery);
     if (result.error) {
-        throw error;
+        throw result.error;
     }
     console.log('Success: deleteLessonById', result.rowCount);
     res.status(200).send('Lesson deleted successfully');
