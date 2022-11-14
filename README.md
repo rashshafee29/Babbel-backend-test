@@ -4,7 +4,7 @@
 1. Copy `.env.example` file in project directory and rename it to `.env` and change fields according to local db setup
 2. run `npm i` to install all dependencies
 3. Start postgres server
-4. run `npm run start` to start the project
+4. run `npm start` to start the project
 
 ## _Api Documentation_
 ## User
