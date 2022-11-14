@@ -10,7 +10,7 @@ const upload = multer({
     dest:'../../upload/images',
 })
 
-router.get('/', getUsers);
+// router.get('/', getUsers);
 router.get('/:id',
     authenticationMiddleware,
     getUserById);
